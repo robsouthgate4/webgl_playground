@@ -30,7 +30,9 @@ module.exports = env => {
         devtool: 'inline-source-map',
         devServer: {
             contentBase: './src/public',
-            port: 9000
+            port: 9000,
+            inline: true,
+            hot: true
         },
         plugins: [
             new HtmlWebpackPlugin({
@@ -39,7 +41,12 @@ module.exports = env => {
             }),
             new GitRevisionPlugin({
                 branch: true
-            })
+            }),
+            // new webpack.WatchIgnorePlugin([
+            //     /\.vert$/,
+            //     /\.frag$/
+            // ]),
+            new webpack.NamedModulesPlugin()
         ],
         output,
         module: {
@@ -55,7 +62,7 @@ module.exports = env => {
                     }]
                 },
                 {
-                    test: /\.(ogg|mp3|jpe?g|png|gif|obj|svg|wav|mpe?g)$/i,
+                    test: /\.(ogg|mp3|jpe?g|png|gif|frag|vert|obj|svg|wav|mpe?g)$/i,
                     loader: 'file-loader'
                 },
                 {
