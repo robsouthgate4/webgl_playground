@@ -7,20 +7,6 @@ var GitRevisionPlugin = require('git-revision-webpack-plugin')
 
 module.exports = env => {
     let output;
-    if (!env) {
-        output = {
-            filename: '[name].bundle.js',
-            path: path.resolve(__dirname, 'dist'),
-            publicPath: ''
-        }
-    } else {
-        output = {
-            filename: `[name].bundle.js`,
-            path: path.resolve(__dirname, `demos/demo_[git-revision-branch]`),
-            publicPath: ''
-        }
-    }
-
     return {
         context: __dirname,
         node: {
@@ -36,8 +22,8 @@ module.exports = env => {
         },
         plugins: [
             new HtmlWebpackPlugin({
-                template: __dirname + "/src/public/index.html",
-                inject: 'body'
+                filename: 'index.html',
+                template: __dirname + "/src/public/index.html"
             }),
             new GitRevisionPlugin({
                 branch: true
@@ -48,7 +34,11 @@ module.exports = env => {
             // ]),
             new webpack.NamedModulesPlugin()
         ],
-        output,
+        output :  {
+            filename: '[name].bundle.js',
+            path: path.resolve(__dirname, 'dist'),
+            publicPath: ''
+        },
         module: {
             rules: [
                 {
